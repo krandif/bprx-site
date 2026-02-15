@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BPRX | Business Owner & Architect</title>
+
+    <!-- Fonts: Zen Old Mincho (Serif) & Manrope (Sans) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600&family=Zen+Old+Mincho:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- GSAP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'bx-black': '#0a0a0a',
+                        'bx-gray': '#f4f4f5',
+                        'bx-accent': '#2563eb',
+                        'bx-text-muted': '#71717a',
+                    },
+                    fontFamily: {
+                        serif: ['"Zen Old Mincho"', 'serif'],
+                        sans: ['"Manrope"', 'sans-serif'],
+                    },
+                    backgroundImage: {
+                        'dot-pattern': "radial-gradient(#d4d4d8 1px, transparent 1px)"
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #ffffff;
+            color: #0a0a0a;
+        }
+
+        .bg-dots {
+            background-size: 24px 24px;
+        }
+
+        .reveal-up {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .hover-underline-animation {
+            display: inline-block;
+            position: relative;
+        }
+        .hover-underline-animation::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            transform: scaleX(0);
+            height: 1px;
+            bottom: 0;
+            left: 0;
+            background-color: #0a0a0a;
+            transform-origin: bottom right;
+            transition: transform 0.4s cubic-bezier(0.86, 0, 0.07, 1);
+        }
+        .hover-underline-animation:hover::after {
+            transform: scaleX(1);
+            transform-origin: bottom left;
+        }
+
+        .math-x {
+            font-family: 'Times New Roman', serif;
+            font-style: italic;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        .text-justify-inter {
+            text-align: justify;
+            text-justify: inter-character;
+        }
+    </style>
+</head>
+<body class="antialiased overflow-x-hidden selection:bg-bx-black selection:text-white">
+
+    <!-- Background Texture -->
+    <div class="fixed inset-0 bg-dots bg-dot-pattern z-[-1] opacity-40 pointer-events-none"></div>
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-40 px-6 py-8 md:px-12 transition-all duration-300 backdrop-blur-sm bg-white/70 border-b border-gray-100/50" id="navbar">
+        <div class="max-w-[1400px] mx-auto flex justify-between items-center">
+            <a href="#" class="text-2xl font-bold tracking-tighter font-sans z-50 flex items-center gap-1">
+                BPR<span class="text-bx-accent math-x text-3xl font-light">X</span>
+            </a>
+
+            <div class="hidden md:flex space-x-12 text-sm font-medium tracking-wide text-bx-text-muted font-sans">
+                <a href="#businesspolicy" class="hover:text-bx-black transition-colors hover-underline-animation">BUSINESS-POLICY</a>
+                <a href="#ownership" class="hover:text-bx-black transition-colors hover-underline-animation">BUSINESS</a>
+                <a href="#architect" class="hover:text-bx-black transition-colors hover-underline-animation">ARCHITECT</a>
+                <a href="#contact" class="hover:text-bx-black transition-colors hover-underline-animation">CONTACT</a>
+            </div>
+
+            <button class="md:hidden z-50" id="menu-btn">
+                <i data-lucide="menu" class="w-6 h-6 text-bx-black"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="fixed inset-0 bg-white z-30 transform translate-x-full transition-transform duration-500 flex flex-col justify-center items-center">
+        <a href="#policy" class="text-3xl font-serif mb-8 mobile-link">方針</a>
+        <a href="#business" class="text-3xl font-serif mb-8 mobile-link">事業</a>
+        <a href="#architect" class="text-3xl font-serif mb-8 mobile-link">全体設計</a>
+        <a href="#contact" class="text-3xl font-serif mobile-link">お問い合わせ</a>
+    </div>
+
+    <!-- Hero Section: モバイルでの上部余白を大幅に確保 -->
+    <header class="relative w-full min-h-screen flex items-center justify-center px-6 pt-40 md:pt-32 pb-20">
+        <div class="max-w-5xl w-full text-center space-y-12">
+
+            <!-- Mathematical Concept Animation: モバイルでのサイズを調整 -->
+            <div class="flex justify-center items-center gap-2 md:gap-8 text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-serif tracking-tight hero-reveal opacity-0 translate-y-10">
+                <span>BPR</span>
+                <span class="text-bx-text-muted font-light">×</span>
+                <span class="text-bx-accent math-x italic" id="variable-x">X</span>
+            </div>
+
+            <p class="text-xs md:text-sm text-bx-black tracking-[0.3em] font-sans font-bold hero-reveal opacity-0 translate-y-10">
+                NO ADVISORY.<br>
+                OWN IT. CREATE IT. GROW IT. BUY IT.<br>
+                LITERALLY, WE MEAN IT.
+            </p>
+
+            <div class="max-w-3xl mx-auto hero-reveal opacity-0 translate-y-10">
+                <p class="text-lg md:text-2xl leading-relaxed font-serif text-bx-black font-medium">
+                    SMB×BPRのトップカンパニー<br>
+                    <span class="text-base md:text-lg text-bx-text-muted mt-6 block leading-loose">
+                        身銭を切る「オーナー」として、<br>
+                        BPRを駆使したSMBの連続的創出と譲り受け・再生を実行します。
+                    </span>
+                </p>
+            </div>
+
+            <div class="pt-8 hero-reveal opacity-0 translate-y-10">
+                <div class="w-[1px] h-24 bg-gray-300 mx-auto overflow-hidden relative">
+                    <div class="absolute inset-0 bg-bx-black animate-[shimmer_2s_infinite]"></div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Businesspolicy -->
+    <section id="businesspolicy" class="py-32 px-6 bg-bx-gray relative overflow-hidden">
+
+    <article class="max-w-6xl mx-auto items-center">
+
+        <!-- 黒帯 -->
+        <div class="relative reveal-up mb-16">
+            <div class="aspect-[5/2] bg-bx-black flex items-center justify-center">
+                <div class="text-white text-center">
+                    <div class="text-3xl md:text-6xl font-semibold tracking-wide italic math-x">
+                    Scale of Dependency<br><br>
+                    By<br><br>
+                    Overkilling King
+                    </div>
+                </div>
+            </div>
+        </div>
+
+         <div class="max-w-6xl mx-auto items-center"> <div class="order-2 md:order-1 relative h-auto w-full bg-white p-10 md:p-16 shadow-sm reveal-up border-l-4 border-bx-black mb-10">
+            <h2 class="text-3xl md:text-4xl font-serif mb-10 leading-snug">
+                「属人性のスケール」を通じてQOLを証明する。
+            </h2>
+            <div class="text-bx-text-muted leading-loose font-sans space-y-6 text-justify-inter">
+                <p>
+                    「コトを起こす」のは、最終的に「覇気と魂」に宿ると固く信じています。<br>
+                    そのコトに資する実務という意味での仕事は属人的にやるものです。<br><br>
+                    エネルギーのソースは常に1人です。エネルギーが波及して広範に広がることはあっても、死ぬほどの執着を持つのは極めて少数であることを、スタートアップにいることを通して痛いほど感じてきました。執着という属人性をスケールさせることを命題として取り組みます。<br><br>
+                    しかし、事業からの逆算ができないこと、そしてWhoとWhatの質と量を最大化できないこと、オーバーキルできないのであれば、事業主・運営者として失格であると考えています。<br><br>
+                    BPRXは、外部からの助言や受託といった立場を取らず、常に市場を観察してテストしながら、属人的な価値を最大化する徹底したモジュール化と組み替えを、事業主と運営者として実行し続けます。<br><br>
+                    外部から資金調達しているだけで市場(WhoとWhatの組み合わせ)に誠実でないSMBを全否定し、真正面からSMBの大量運営に全振りします。<br><br>
+                    コンサルティングや受託開発のような「頭の良い人がやる、頭の悪いビジネス」はやりません。<br>
+                    時間の切り売り型の事業は手掛けません。ヘッドカウントがKPIの事業は手掛けません。<br>
+                    「モノ売りからコト売り」が叫ばれて久しいですが、安直なサービス売りや時間切り売りは私たちは実施しません。<br><br>
+                    「属人性」を発揮し、それをSMBとして確立し、場合によっては複数持ち、飽きずにテコ入れし続けることが、多くの人にとってQOLを高める最適な方法論であるということを我々は身をもって証明し続けます。
+                </p>
+            </div>
+        </div>
+
+    </article>
+
+</section>
+
+    <!-- Business -->
+    <section id="business" class="py-32 px-6 md:px-12 max-w-6xl mx-auto border-b border-gray-200">
+        <div class="flex flex-col md:flex-row justify-between items-end mb-24 reveal-up border-b border-gray-100 pb-8">
+            <div>
+                <h2 class="text-4xl font-serif mb-4">Business</h2>
+                <p class="text-xs tracking-[0.3em] text-bx-text-muted">事業</p>
+            </div>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-12">
+            <!-- Service 1 -->
+            <div class="group reveal-up">
+                <div class="bg-white p-8 h-full border border-gray-200 hover:border-bx-black transition-all duration-500 relative overflow-hidden">
+                    <div class="absolute top-0 right-0 w-24 h-24 bg-bx-gray -mr-12 -mt-12 rounded-full opacity-50"></div>
+
+                    <span class="text-xs font-sans tracking-widest text-bx-accent block mb-6">INCUBATION</span>
+                    <h3 class="text-3xl font-serif mb-6 group-hover:translate-x-2 transition-transform">SMB Mass Creation</h3>
+
+                    <p class="text-bx-text-muted leading-relaxed font-sans text-sm mb-8">
+                        BPRXの方法論を組み込んだSMB（Small & Medium Business）を、自社事業として大量に創出します。<br>
+                        WhoとWhatの認識と構築を徹底し、技術で逆算し、オペレーショナルエクセレンスを実行し、長期目線で運営します。<br>
+                        多くの人にとってQOLを高めるのはSMBであると固く信じており、それを弊社は身をもって証明し続けます。
+                    </p>
+
+                    <ul class="space-y-4 border-t border-gray-100 pt-6">
+                        <li class="flex items-start gap-3 text-sm">
+                            <span class="text-bx-accent mt-1">■</span>
+                            <span>自己資本による事業立ち上げ</span>
+                        </li>
+                        <li class="flex items-start gap-3 text-sm">
+                            <span class="text-bx-accent mt-1">■</span>
+                            <span>オペレーションの完全自動化・資産化</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Service 2 -->
+            <div class="group reveal-up">
+                <div class="bg-white p-8 h-full border border-gray-200 hover:border-bx-black transition-all duration-500 relative overflow-hidden">
+                    <div class="absolute top-0 right-0 w-24 h-24 bg-bx-gray -mr-12 -mt-12 rounded-full opacity-50"></div>
+
+                    <span class="text-xs font-sans tracking-widest text-bx-accent block mb-6">ACQUISITION</span>
+                    <h3 class="text-3xl font-serif mb-6 group-hover:translate-x-2 transition-transform">M&A & Revitalization</h3>
+
+                    <p class="text-bx-text-muted leading-relaxed font-sans text-sm mb-8">
+                        買収者（Buyer）として参入します。<br>
+                        売り手様のこれまでの文脈とプロセスを丁寧に踏まえたうえで、オーナー権限を持って市場と技術から逆算した再構築（BPR）を実施し、高収益体質で長期的な運営を実行します。
+                    </p>
+
+                    <ul class="space-y-4 border-t border-gray-100 pt-6">
+                        <li class="flex items-start gap-3 text-sm">
+                            <span class="text-bx-accent mt-1">■</span>
+                            <span>自己勘定投資</span>
+                        </li>
+                        <li class="flex items-start gap-3 text-sm">
+                            <span class="text-bx-accent mt-1">■</span>
+                            <span>市場と事業から逆算したプロセスとコスト構造の徹底改革</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Exclusive Architect -->
+    <section id="architect" class="py-32 px-6 md:px-12 max-w-6xl mx-auto bg-white">
+        <div class="grid md:grid-cols-12 gap-16 items-center reveal-up">
+            <div class="md:col-span-5 relative">
+                <div class="aspect-[3/4] bg-bx-black p-1 relative overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1506452336340-e17f5afc23e8?q=80&w=1760&auto=format&fit=crop" onerror="this.onerror=null;this.src='https://placehold.co/400x500/0a0a0a/ffffff?text=Architect+Plan'" alt="設計図を広げた机とペン、全体設計を示す画像" class="w-full h-full object-cover opacity-70 grayscale">
+                    <div class="absolute inset-0 border border-white/20 m-4"></div>
+                </div>
+            </div>
+            <div class="md:col-span-7">
+                <span class="text-xs font-bold tracking-widest text-bx-accent block mb-4">LIMITED PARTNERSHIP</span>
+                <div class="flex flex-col md:flex-row md:items-baseline justify-between gap-4 mb-8">
+                    <h3 class="text-3xl md:text-4xl font-serif">Exclusive Architect</h3>
+                </div>
+
+                <div class="space-y-6 text-justify-inter text-bx-black font-serif leading-loose">
+                    <p>
+                        アドバイザーはやりません。<br>
+                    </p>
+                    <p>
+                        しかし、極めて限定的な数社に限り、「アーキテクト（設計者）」として深く入り込むことがあります。
+                    </p>
+                    <p>
+                        コンサルティング契約ではなく、事業構造そのものを再定義したり、これまでの全社のプロセスの半分以上を再構築するような痛みを伴うタイミングでご一緒します。
+                    </p>
+                </div>
+
+                <div class="mt-10 inline-flex items-center gap-2 text-xs font-bold tracking-widest text-bx-text-muted border border-gray-200 px-4 py-2 bg-gray-50">
+                    <i data-lucide="lock" class="w-3 h-3"></i> INVITATION / REFERRAL ONLY
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact/Footer -->
+    <section id="contact" class="bg-bx-black text-white py-24 px-6 md:px-12">
+        <div class="max-w-[1400px] mx-auto grid md:grid-cols-2 gap-16">
+            <div class="space-y-10 reveal-up">
+                <h2 class="text-4xl md:text-6xl font-serif">Owners Only.</h2>
+                <p class="text-gray-400 font-sans leading-loose max-w-md">
+                    私たちは、事業を創るオーナーであり、事業を譲り受けて長期目線で再構築して運営する当事者です。<br>
+                    <br>
+                    事業譲渡をご検討の方、<br>
+                    あるいは私たちと共に事業を創出したい方。<br>
+                    本質的な議論ができる方からのご連絡をお待ちしています。
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 gap-8 text-sm font-sans text-gray-400 reveal-up md:pl-20 content-end">
+                <div class="border-t border-white/10 pt-6">
+                    <h4 class="text-white mb-4 tracking-widest text-xs">COMPANY</h4>
+                    <p class="mb-2 text-lg font-serif text-white">BPRX Inc.</p>
+                    <p class="mb-2">Business Process Re-engineering × X</p>
+                    <p class="text-xs text-gray-500">Creating & Acquiring SMBs / Tokyo, Japan</p>
+                </div>
+            </div>
+        </div>
+        <div class="max-w-[1400px] mx-auto mt-20 pt-8 border-t border-white/10 text-[10px] text-gray-600 flex justify-between">
+            <div>&copy; 2025 BPRX Inc.</div>
+            <div class="tracking-widest">NO ADVISORY. ONLY OWNERSHIP.</div>
+        </div>
+    </section>
+
+    <script>
+        lucide.createIcons();
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Variable X Animation: レスポンシブサイズを適切に管理
+        const variables = [" X ", "Ownership", "Creation", "Acquisition"];
+        let vIndex = 0;
+        const xElement = document.getElementById('variable-x');
+
+        setInterval(() => {
+            gsap.to(xElement, {
+                opacity: 0,
+                y: -10,
+                duration: 0.3,
+                onComplete: () => {
+                    vIndex = (vIndex + 1) % variables.length;
+                    xElement.innerText = variables[vIndex];
+
+                    // 修正後
+                    if (variables[vIndex] === "X") {
+                        xElement.classList.add("math-x", "italic");
+                        xElement.classList.remove("text-bx-accent");
+                        xElement.classList.add("text-bx-black");
+                    } else {
+                        xElement.classList.add("math-x", "italic");
+                        xElement.classList.remove("text-bx-black");
+                        xElement.classList.add("text-bx-accent");
+                    }
+
+                    gsap.to(xElement, {
+                        opacity: 1,
+                        y: 0,
+                        duration: 0.5
+                    });
+                }
+            });
+        }, 2500);
+
+        // Hero Reveal
+        window.addEventListener('load', () => {
+            gsap.to(".hero-reveal", {
+                opacity: 1,
+                y: 0,
+                duration: 1.2,
+                stagger: 0.2,
+                ease: "power3.out",
+                delay: 0.2
+            });
+        });
+
+        // Scroll Reveal
+        const revealElements = document.querySelectorAll('.reveal-up');
+        revealElements.forEach(el => {
+            gsap.to(el, {
+                scrollTrigger: {
+                    trigger: el,
+                    start: "top 85%",
+                    toggleActions: "play none none reverse"
+                },
+                opacity: 1,
+                y: 0,
+                duration: 1.0,
+                ease: "power3.out"
+            });
+        });
+
+        // Mobile Menu
+        const menuBtn = document.getElementById('menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+        let isMenuOpen = false;
+
+        menuBtn.addEventListener('click', () => {
+            isMenuOpen = !isMenuOpen;
+            if (isMenuOpen) {
+                gsap.to(mobileMenu, { x: '0%', duration: 0.5, ease: 'power2.out' });
+                menuBtn.innerHTML = '<i data-lucide="x" class="w-6 h-6"></i>';
+                lucide.createIcons();
+            } else {
+                gsap.to(mobileMenu, { x: '100%', duration: 0.5, ease: 'power2.in' });
+                menuBtn.innerHTML = '<i data-lucide="menu" class="w-6 h-6"></i>';
+                lucide.createIcons();
+            }
+        });
+
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                isMenuOpen = false;
+                gsap.to(mobileMenu, { x: '100%', duration: 0.5, ease: 'power2.in' });
+                menuBtn.innerHTML = '<i data-lucide="menu" class="w-6 h-6"></i>';
+                lucide.createIcons();
+            });
+        });
+    </script>
+</body>
+</html>
